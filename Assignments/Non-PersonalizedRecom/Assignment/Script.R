@@ -16,7 +16,7 @@ meanRatingsSub
 
 #Part2: Find proportion of 4+ ratings for each movie
 ratingsub <- as.data.frame(sapply(colnames(ratings)[-1], function(x) as.vector(table(ratings[!is.na(ratings[, x]), x] >= 4)[2])) / 
-        sapply(colnames(ratings)[-1], function(x) length(which(!is.na(ratings[, x])))))
+                                   sapply(colnames(ratings)[-1], function(x) length(which(!is.na(ratings[, x])))))
 proportiondf <- data.frame(movieID = rownames(ratingsub), proportion = ratingsub[[1]])
 proportiondf <- proportiondf[order(proportiondf$proportion, decreasing = TRUE), ]
 proportiondf
@@ -34,3 +34,4 @@ otherratingsdf <- data.frame(movieID = rownames(otherratings), x_y = otherrating
 swAndOthers <- data.frame(movieID = as.character(otherratingsdf$movieID), condprob = as.numeric(otherratingsdf$x_y / 15))
 swAndOthers <- swAndOthers[order(swAndOthers$condprob, decreasing = TRUE), ]
 swAndOthers
+
