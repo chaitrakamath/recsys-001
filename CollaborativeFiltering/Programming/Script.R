@@ -29,7 +29,7 @@ as.character(top5neighbors[top5neighbors$user == 'X1648', 'neighbors']) ],
 top5neighbors[top5neighbors$user == 'X1648', 'correlations'], SIMPLIFY = FALSE)), na.rm = TRUE) / 
 sum(top5neighbors[top5neighbors$user == 'X1648', 'correlations'])
 
-ratings [is.na(ratings)] <- 0
+#ratings [is.na(ratings)] <- 0
 predictedRatings <- sapply(colnames(predRatings[, - 1]), function(x){
         predRatings[, x] <- rowSums(data.frame(mapply('*', ratings[, colnames(ratings) %in% 
                         as.character(top5neighbors[top5neighbors$user == x, 'neighbors']) ], 
@@ -39,6 +39,27 @@ predictedRatings <- sapply(colnames(predRatings[, - 1]), function(x){
 
 finalRatings <- cbind.data.frame(movieName = as.character(predRatings[, 1]), predictedRatings)
 
+
+
+#----------------------------------Discussion Forum--------------
+top5neighbors[top5neighbors$user == 'X3712', ]
+
+ratings[, 'X2824']
+ratings[, 'X3867']
+ratings[, 'X5062']
+ratings[, 'X442']
+ratings[, 'X3853']
+
+r1 <-  ratings[, 'X2824'] * top5neighbors[top5neighbors$user == 'X3712' & top5neighbors$neighbor == 'X2824','correlations' ]
+r2 <-  ratings[, 'X3867']  * top5neighbors[top5neighbors$user == 'X3712' & top5neighbors$neighbor == 'X3867','correlations' ]
+r3 <-  ratings[, 'X5062'] * top5neighbors[top5neighbors$user == 'X3712' & top5neighbors$neighbor == 'X5062','correlations' ]
+r4 <-  ratings[, 'X442'] * top5neighbors[top5neighbors$user == 'X3712' & top5neighbors$neighbor == 'X442','correlations' ]
+r5 <-  ratings[, 'X3853'] * top5neighbors[top5neighbors$user == 'X3712' & top5neighbors$neighbor == 'X3853','correlations' ]
+
+num <- rowSums(cbind(r1, r2, r3, r4, r5), na.rm = TRUE)
+den <- sum(top5neighbors[top5neighbors$user == 'X3712', 'correlations'])
+
+predictions <- cbind.data.frame(movie = ratings$X, ratings = num / den)
 #-------------------------------------Part2------------------------
 #
 
